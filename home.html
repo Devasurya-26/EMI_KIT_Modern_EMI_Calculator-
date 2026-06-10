@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Loan Calculator</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="design.css">
+</head>
+
+<body>
+
+    <div class="page-wrap">
+        <header>
+            <div class="logo-area">
+                <h1>EMI<span>.</span>Kit</h1>
+                <p>Loan Amortization Calculator</p>
+            </div>
+            <span class="badge">No sign-up needed</span>
+        </header>
+
+        <div class="main-grid">
+
+            <!-- INPUT CARD -->
+            <div class="card">
+                <div class="card-title">Loan Details</div>
+
+                <div class="input-group">
+                    <label>Loan Amount <span class="val" id="loanAmtLabel">₹10,00,000</span></label>
+                    <input type="range" id="loanAmt" min="100000" max="10000000" step="50000" value="1000000">
+                    <div class="range-labels"><span>₹1L</span><span>₹1Cr</span></div>
+                    <div class="num-input-wrap" style="margin-top:10px">
+                        <span class="prefix">₹</span>
+                        <input type="number" id="loanAmtNum" value="1000000" min="100000" max="10000000">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Interest Rate <span class="val" id="rateLabel">8.5% p.a.</span></label>
+                    <input type="range" id="rate" min="1" max="20" step="0.1" value="8.5">
+                    <div class="range-labels"><span>1%</span><span>20%</span></div>
+                    <div class="num-input-wrap">
+                        <span class="prefix">%</span>
+                        <input type="number" id="rateNum" value="8.5" min="1" max="20" step="0.1">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Loan Tenure <span class="val" id="tenureLabel">20 Years</span></label>
+                    <input type="range" id="tenure" min="1" max="30" step="1" value="20">
+                    <div class="range-labels"><span>1 yr</span><span>30 yrs</span></div>
+
+                    <div class="tab-row" style="margin-top:12px">
+                        <button class="tab-btn active" id="yrBtn" onclick="setTenureMode('yr')">Years</button>
+                        <button class="tab-btn" id="moBtn" onclick="setTenureMode('mo')">Months</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS CARD -->
+            <div>
+                <div class="card" style="margin-bottom:16px">
+                    <div class="card-title">Monthly EMI</div>
+
+                    <div class="emi-big">
+                        <div class="label">Pay every month</div>
+                        <div class="amount" id="emiAmt">₹8,678</div>
+                        <div class="sub" id="emiSubtext">for 240 months</div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="s-label">Principal</div>
+                            <div class="s-val" id="principalAmt">₹10,00,000</div>
+                        </div>
+                        <div class="stat-box highlight">
+                            <div class="s-label">Total Interest</div>
+                            <div class="s-val" id="interestAmt">₹1,08,275</div>
+                        </div>
+                        <div class="stat-box" style="grid-column:1/-1">
+                            <div class="s-label">Total Payment</div>
+                            <div class="s-val" id="totalAmt" style="font-size:1.3rem">₹20,82,756</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHART CARD -->
+                <div class="card">
+                    <div class="card-title">Breakup</div>
+                    <div class="chart-wrap">
+                        <canvas id="pieChart" width="160" height="160"></canvas>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#1a3a5c"></div>
+                                <div>
+                                    <span class="l-label">Principal</span>
+                                    <span class="l-val" id="lgPrincipal">₹10,00,000 <span class="l-pct"
+                                            id="lgPrincipalPct">(48%)</span></span>
+                                </div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#e8500a"></div>
+                                <div>
+                                    <span class="l-label">Interest</span>
+                                    <span class="l-val" id="lgInterest">₹10,82,756 <span class="l-pct"
+                                            id="lgInterestPct">(52%)</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AMORTIZATION TABLE -->
+            <div class="card table-card">
+                <div class="card-title">Amortization Schedule</div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Opening Balance</th>
+                                <th class="principal-col">Principal Paid</th>
+                                <th class="interest-col">Interest Paid</th>
+                                <th>EMI Paid</th>
+                                <th>Closing Balance</th>
+                                <th>Interest %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="amortTable"></tbody>
+                    </table>
+                </div>
+                <div class="show-more-wrap">
+                    <button class="show-more-btn" id="showMoreBtn" onclick="toggleTable()">Show All Years ↓</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+
+</html>
